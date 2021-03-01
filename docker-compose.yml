@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  # Database
+  database:
+    image: mongo
+    container_name: mongo-bigbot
+    volumes:
+      - ./mongodb:/data/db
+    ports:
+      - 27017:27017
+  
+  # Bot
+  bot:
+    build: ./src/bot
+    volumes:
+      - ./src/bot:/usr/src/app
+  
+  # Gateways
+  bot_gateway:
+    build: ./src/bot_gateway
+    volumes:
+      - ./src/bot_gateway:/usr/src/app
+    ports:
+      - 5000:80
+  
+  # Micro services
+  echo_test:
+    build: ./src/micro_services/echo_test
+    volumes:
+      - ./src/micro_services/echo_test:/usr/src/app
+    ports:
+      - 5001:80
+  
+  
+
